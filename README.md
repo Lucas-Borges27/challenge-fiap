@@ -23,4 +23,6 @@ Outras Ferramentas: API de monitoramento de transporte público
 🔴 Botão de Emergência: Contato rápido com a segurança do metrô/trem.
 📜 Licença Este projeto é open-source e foi desenvolvido exclusivamente para fins acadêmicos na FIAP.
 
+📹 Video: https://youtu.be/G6kenPw78Jk
+
 ✉ Para mais informações, entre em contato com a equipe!
