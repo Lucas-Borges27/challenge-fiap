@@ -1,4 +1,3 @@
-"use client";
 
 export default function Desenvolvedores() {
   return (
@@ -51,7 +50,7 @@ export default function Desenvolvedores() {
         </div>
       </div>
 
-      <div className="flex flex-col items-center bg-white p-6 shadow-md rounded-lg w-72 mr-4">
+      <div className="flex flex-col items-center bg-white p-6 shadow-md rounded-lg w-80 mr-4">
         <img
           alt="Foto de perfil de Pedro Henrique"
           src="/images/Pedrofoto.jpg"
