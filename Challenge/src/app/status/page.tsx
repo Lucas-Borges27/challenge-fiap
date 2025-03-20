@@ -1,9 +1,7 @@
-"use client";
 
 export default function status() {
   return (
     <>
-      <script src="https://cdn.userway.org/widget.js" data-account="wWYZXkVTsK"></script>
       <div className="container mx-auto p-4">
       <div className="search-bar mb-4">
           <input type="text" placeholder="🔍 Busque uma estação" className="w-full p-2 border rounded-lg shadow-sm" />
