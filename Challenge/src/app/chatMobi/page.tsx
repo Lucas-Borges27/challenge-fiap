@@ -1,23 +1,18 @@
 "use client";
-
-import { useEffect } from "react";
 import Image from "next/image";
 
 export default function ChatMobi() {
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://cdn.userway.org/widget.js";
-    script.dataset.account = "wWYZXkVTsK";
-    document.body.appendChild(script);
-  }, []);
+
 
   return (
+    <>
+    <script src="https://cdn.userway.org/widget.js" data-account="wWYZXkVTsK"></script>
     <div className="flex m-5 flex-col h-screen bg-gray-100 font-montserrat rounded-lg">
       <div className="bg-white p-4 shadow-md">
         <div className="flex justify-between items-center">
           <div className="text-xl font-bold text-[#8B2119]">ChatMobi</div>
         </div>
-        <div className="w-50">
+        <div className="w-60">
           <a
             href="https://www.viamobilidade.com.br/duvidas"
             className="flex items-center text-[#9D9D9D] text-lg no-underline"
@@ -55,5 +50,6 @@ export default function ChatMobi() {
         />
       </div>
     </div>
+    </>
   );
 }
