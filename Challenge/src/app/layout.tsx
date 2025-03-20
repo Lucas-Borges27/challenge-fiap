@@ -3,6 +3,8 @@ import "./globals.css";
 import Header from "./componentes/header"; 
 import Footer from "./componentes/footer";
 import BotaoBaixeApp from "./componentes/botaoBaixeApp";
+import Script from "next/script";
+
 
 
 export const metadata: Metadata = {
@@ -17,7 +19,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body>
+      <body>  
+      <Script src="https://cdn.userway.org/widget.js" data-account="wWYZXkVTsK"></Script>
         <Header />
         {children}
         <Footer/>
