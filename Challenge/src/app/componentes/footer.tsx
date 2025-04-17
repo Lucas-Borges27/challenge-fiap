@@ -38,7 +38,7 @@ export default function Footer() {
             <li><a href="/" className="text-white hover:text-gray-300">Rotas</a></li>
             <li><a href="/status" className="text-white hover:text-gray-300">Status</a></li>
             <li><a href="/suporte" className="text-white hover:text-gray-300">Suporte</a></li>
-            <li><a href="/chatMobi" className="text-white hover:text-gray-300">ChatMobi</a></li>
+            
           </ul>
         </div>
         <div>

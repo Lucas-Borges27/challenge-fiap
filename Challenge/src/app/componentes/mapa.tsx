@@ -1,13 +1,99 @@
+"use client";
 
-export default function Mapa() {
-    return (
-        <div className="my-5 mx-auto w-[80%] max-w-[1500px] flex justify-center items-center">
-            <iframe
-                loading="lazy"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.287482432738!2d-46.65539072468329!3d-23.561399578807597!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c794a7aa7f%3A0xb829a724a0e0f972!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%20Brasil!5e0!3m2!1spt-BR!2sbr!4v1715632070583!5m2!1spt-BR!2sbr"
-                className="w-[80%] h-[400px] rounded-lg border-none"
-                allowFullScreen
-            ></iframe>
-        </div>
-    );
+import { useEffect, useRef, useState } from "react";
+
+declare global {
+  interface Window {
+    mapsScriptLoaded?: boolean;
+  }
+}
+
+interface MapaProps {
+  origem: string;
+  destino: string;
+}
+
+export default function Mapa({ origem, destino }: MapaProps) {
+  const mapRef = useRef<HTMLDivElement | null>(null);
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [directionsService, setDirectionsService] = useState<google.maps.DirectionsService | null>(null);
+  const [directionsRenderer, setDirectionsRenderer] = useState<google.maps.DirectionsRenderer | null>(null);
+
+  useEffect(() => {
+    const loadGoogleMaps = () => {
+      if (!window.google?.maps && !window.mapsScriptLoaded) {
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAP3G5hMh0yUF8R8oEpmy5X5dHyJTunVjU&libraries=places`;
+        script.async = true;
+        script.defer = true;
+        script.onload = () => {
+          window.mapsScriptLoaded = true;
+          initializeMap();
+        };
+        document.head.appendChild(script);
+      } else if (window.google?.maps) {
+        initializeMap();
+      }
+    };
+
+    const initializeMap = () => {
+      if (mapRef.current && !map) {
+        const googleMap = new google.maps.Map(mapRef.current, {
+          center: { lat: -23.5505, lng: -46.6333 },
+          zoom: 12,
+        });
+
+        const transitLayer = new google.maps.TransitLayer();
+        transitLayer.setMap(googleMap);
+
+        setMap(googleMap);
+        setDirectionsService(new google.maps.DirectionsService());
+        setDirectionsRenderer(new google.maps.DirectionsRenderer({ map: googleMap }));
+      }
+    };
+
+    loadGoogleMaps();
+  }, [map]);
+
+  useEffect(() => {
+    if (directionsService && directionsRenderer && origem && destino) {
+      const request: google.maps.DirectionsRequest = {
+        origin: origem,
+        destination: destino,
+        travelMode: google.maps.TravelMode.TRANSIT,
+        provideRouteAlternatives: true,
+      };
+
+      directionsService.route(request, (result, status) => {
+        if (status === "OK" && result) {
+          const rotasMetro = result.routes.filter(route =>
+            route.legs.some(leg =>
+              leg.steps.some(step => {
+                const vehicleType = step.transit?.line?.vehicle?.type;
+                return (
+                  vehicleType === google.maps.VehicleType.SUBWAY ||
+                  vehicleType === google.maps.VehicleType.HEAVY_RAIL
+                );
+              })
+            )
+          );
+
+          if (rotasMetro.length > 0) {
+            directionsRenderer.setDirections({ ...result, routes: rotasMetro });
+          } else {
+            alert("Nenhuma rota de metrô encontrada. Mostrando outras opções.");
+            directionsRenderer.setDirections(result);
+          }
+        } else {
+          alert("Não foi possível encontrar uma rota.");
+        }
+      });
+    }
+  }, [origem, destino, directionsService, directionsRenderer]);
+
+  return (
+    <div className="my-5 mx-auto w-[80%] max-w-[1500px] flex justify-center items-center">
+      <div ref={mapRef} className="w-[80%] h-[500px] rounded-lg border"></div>
+    </div>
+  );
 }

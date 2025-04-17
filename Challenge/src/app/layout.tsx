@@ -4,6 +4,7 @@ import Header from "./componentes/header";
 import Footer from "./componentes/footer";
 import BotaoBaixeApp from "./componentes/botaoBaixeApp";
 import Script from "next/script";
+import WatsonChat from "./componentes/watsonChat";
 
 
 
@@ -22,7 +23,8 @@ export default function RootLayout({
       <body>  
       <Script src="https://cdn.userway.org/widget.js" data-account="wWYZXkVTsK"></Script>
         <Header />
-        {children}
+          {children}
+        <WatsonChat />
         <Footer/>
         <BotaoBaixeApp/>
       </body>
